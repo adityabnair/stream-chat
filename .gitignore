@@ -1,0 +1,26 @@
+# Node.js dependencies (frontend)
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# Python cache files (backend)
+backend/__pycache__/
+backend/*.py[cod]
+backend/env/
+backend/venv/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Log files
+*.log
+
+# IDE settings
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
