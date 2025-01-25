@@ -108,7 +108,7 @@ function App() {
         <div>
           <input
             type="text"
-            placeholder="Enter user ID (e.g., alice)"
+            placeholder="Enter user ID (can login as either alice or bob)"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
           />
