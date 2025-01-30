@@ -10,6 +10,13 @@ import {
 import { StreamChat } from "stream-chat";
 import "stream-chat-react/dist/css/v2/index.css";
 
+// in case the REACT_APP_BACKEND_URL is not defined, throw an error
+if (!process.env.REACT_APP_BACKEND_URL) {
+  throw new Error("REACT_APP_BACKEND_URL is not defined in the environment variables.");
+}
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+
 const apiKey = process.env.REACT_APP_STREAM_API_KEY;
 const client = StreamChat.getInstance(apiKey);
 
@@ -20,7 +27,7 @@ function App() {
 
   const loginUser = async () => {
     try {
-      const response = await fetch("http://localhost:5000/create_user", {
+      const response = await fetch(`${BACKEND_URL}/create_user`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: userId, name: `User ${userId}` }),
@@ -43,7 +50,7 @@ function App() {
     try {
       const otherUser = userId === "alice" ? "bob" : "alice";
 
-      const response = await fetch("http://localhost:5000/create_chat", {
+      const response = await fetch(`${BACKEND_URL}/create_chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,16 +87,16 @@ function App() {
         alert("No active channel. Please log in and create a channel first.");
         return;
       }
-  
-      const response = await fetch("http://localhost:5000/ai_chat", {
+
+      const response = await fetch(`${BACKEND_URL}/ai_chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          channel_id: channel.id,  // Pass the channel ID to the backend
+          channel_id: channel.id, // Pass the channel ID to the backend
           prompt_1: "Hello, AI!", // Initial message to start the conversation
         }),
       });
-  
+
       if (response.ok) {
         console.log("AI chat started successfully");
       } else {
@@ -100,8 +107,7 @@ function App() {
       console.error("Error starting AI chat:", error);
     }
   };
-  
-  // Add a button to trigger AI chat
+
   return (
     <div>
       {!user && (
@@ -125,7 +131,7 @@ function App() {
               <MessageInput />
             </Window>
           </Channel>
-          <button onClick={startAIChat}>Start AI Chat - 5 messages</button> {/* AI chat button */}
+          <button onClick={startAIChat}>Start AI Chat - 5 messages</button>
         </Chat>
       )}
     </div>
